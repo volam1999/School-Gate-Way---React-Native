@@ -6,8 +6,9 @@ import {
   Text,
   ActivityIndicator,
   ToastAndroid,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "../modules/Database";
 
 export default class ListAccount extends React.Component {
@@ -79,7 +80,7 @@ export default class ListAccount extends React.Component {
         <FlatList
           data={this.state.dataSource}
           renderItem={this.renderItem}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index + "TP"}
           ItemSeparatorComponent={this.renderSeparator}
         />
       </View>

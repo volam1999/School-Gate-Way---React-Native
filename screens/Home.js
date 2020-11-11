@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,7 +9,7 @@ import firebase from "../modules/Database";
 
 import Main from "./Main";
 import Profile from "./Profile";
-import Admin from "./Admin";
+import Admin from "./AdminFeature";
 import ListAccounts from "./ListAccount";
 
 const Tab = createBottomTabNavigator();
@@ -61,11 +62,9 @@ export default class Home extends React.Component {
               let iconName;
 
               if (route.name === "Main") {
-                iconName = focused
-                  ? "ios-information-circle"
-                  : "ios-information-circle-outline";
+                iconName = focused ? "ios-home" : "ios-home";
               } else if (route.name === "Profile") {
-                iconName = focused ? "ios-list-box" : "ios-list";
+                iconName = focused ? "ios-airplane" : "ios-airplane";
               } else if (route.name === "Admin") {
                 iconName = focused ? "ios-list-box" : "ios-list";
               }
@@ -82,7 +81,7 @@ export default class Home extends React.Component {
           <Tab.Screen
             name="Main"
             component={Main}
-            options={{ tabBarBadge: 0, title: "My Home" }}
+            options={{ tabBarBadge: 9, title: "My Home" }}
           />
           <Tab.Screen name="Profile" component={Profile} />
           <Tab.Screen name="Admin" component={ListAccounts} />
