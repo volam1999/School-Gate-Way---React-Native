@@ -29,7 +29,7 @@ export default class login extends React.Component {
 
         if (password == password1) {
           Alert.alert("Welcome back: " + userId);
-          this.props.navigation.navigate("home", {
+          this.props.navigation.navigate("dashboard", {
             userId: userId,
           });
         } else {

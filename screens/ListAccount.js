@@ -36,7 +36,7 @@ export default class ListAccount extends React.Component {
   renderItem = ({ item }) => {
     return (
       <TouchableOpacity
-        style={{ flex: 1, flexDirection: "row", backgroundColor: "#F5FCFF" }}
+        style={{ flex: 1, flexDirection: "row" }}
         onPress={() => {
           ToastAndroid.show(item.name, ToastAndroid.SHORT);
         }}
