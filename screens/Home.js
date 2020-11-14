@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -55,38 +54,36 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <NavigationContainer independent>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-              if (route.name === "Main") {
-                iconName = focused ? "ios-home" : "ios-home";
-              } else if (route.name === "Profile") {
-                iconName = focused ? "ios-airplane" : "ios-airplane";
-              } else if (route.name === "Admin") {
-                iconName = focused ? "ios-list-box" : "ios-list";
-              }
+            if (route.name === "Main") {
+              iconName = focused ? "ios-home" : "ios-home";
+            } else if (route.name === "Profile") {
+              iconName = focused ? "ios-airplane" : "ios-airplane";
+            } else if (route.name === "Admin") {
+              iconName = focused ? "ios-list-box" : "ios-list";
+            }
 
-              // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: "tomato",
-            inactiveTintColor: "gray",
-          }}
-        >
-          <Tab.Screen
-            name="Main"
-            component={Main}
-            options={{ tabBarBadge: 9, title: "My Home" }}
-          />
-          <Tab.Screen name="Profile" component={Profile} />
-          <Tab.Screen name="Admin" component={ListAccounts} />
-        </Tab.Navigator>
-      </NavigationContainer>
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "tomato",
+          inactiveTintColor: "gray",
+        }}
+      >
+        <Tab.Screen
+          name="Main"
+          component={Main}
+          options={{ tabBarBadge: 9, title: "My Home" }}
+        />
+        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Admin" component={ListAccounts} />
+      </Tab.Navigator>
     );
   }
 }
