@@ -11,10 +11,22 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default class login extends React.Component {
   state = {
     username: "",
     password: "",
+  };
+
+  storeData = async (id, role) => {
+    try {
+      await AsyncStorage.setItem("@sessionID", id);
+      await AsyncStorage.setItem("@role", role);
+      console.log("Session: " + id + " " + role);
+    } catch (error) {
+      console.log(error.text);
+    }
   };
 
   loginByFirebase = (userId, password) => {
@@ -26,9 +38,9 @@ export default class login extends React.Component {
         // password get from firebase
         const password1 = snapshot.val() ? snapshot.val().password : "";
         console.log("Password from server: ", password1);
-
         if (password == password1) {
           Alert.alert("Welcome back: " + userId);
+          this.storeData(userId, snapshot.val().role);
           this.props.navigation.navigate("dashboard", {
             userId: userId,
           });
@@ -73,9 +85,6 @@ export default class login extends React.Component {
             Đăng Nhập
           </Text>
         </TouchableOpacity>
-        <Text style={{ position: "absolute", bottom: 0, fontSize: 11 }}>
-          Phiên Bản: 1.0
-        </Text>
       </KeyboardAvoidingView>
     );
   }

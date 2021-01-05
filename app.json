@@ -28,6 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Fixed error: Invariant Violation: Tried to register two views with the same name RNCSafeAreaProvider on IOS devices\n"
+    "description": "Add menu for admin."
   }
 }

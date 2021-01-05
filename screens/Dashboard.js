@@ -10,9 +10,15 @@ import Profile from "./Profile";
 import ListAccounts from "./ListAccount";
 import AdminFeatures from "./AdminFeatures";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Tab = createBottomTabNavigator();
 
 export default class Dashboard extends React.Component {
+  state = {
+    role: "user",
+  };
+
   registerForPushNotificationsAsync = async () => {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
@@ -47,42 +53,90 @@ export default class Dashboard extends React.Component {
     }
   };
 
+  getRoleMenu = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@role");
+      if (value !== null) {
+        // value previously stored
+        console.log(value);
+        this.setState({ role: value });
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
   async componentDidMount() {
     await this.registerForPushNotificationsAsync();
+    await this.getRoleMenu();
   }
 
   render() {
-    return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    if (this.state.role == "admin") {
+      return (
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
 
-            if (route.name === "Home") {
-              iconName = focused ? "ios-home" : "ios-home";
-            } else if (route.name === "Profile") {
-              iconName = focused ? "ios-airplane" : "ios-airplane";
-            } else if (route.name === "Admin") {
-              iconName = focused ? "ios-list-box" : "ios-list";
-            }
+              if (route.name === "Home") {
+                iconName = focused ? "ios-home" : "ios-home";
+              } else if (route.name === "Profile") {
+                iconName = focused ? "ios-person" : "ios-person";
+              } else if (route.name === "Admin") {
+                iconName = focused ? "ios-settings" : "ios-settings";
+              }
 
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: "tomato",
-          inactiveTintColor: "gray",
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{ tabBarBadge: 99, title: "My Home" }}
-        />
-        <Tab.Screen name="Profile" component={Profile} />
-        <Tab.Screen name="Admin" component={AdminFeatures} />
-      </Tab.Navigator>
-    );
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: "tomato",
+            inactiveTintColor: "gray",
+          }}
+        >
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            options={{ tabBarBadge: 99, title: "My Home" }}
+          />
+          <Tab.Screen name="Profile" component={Profile} />
+          <Tab.Screen name="Admin" component={AdminFeatures} />
+        </Tab.Navigator>
+      );
+    } else {
+      return (
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+
+              if (route.name === "Home") {
+                iconName = focused ? "ios-home" : "ios-home";
+              } else if (route.name === "Profile") {
+                iconName = focused ? "ios-person" : "ios-person";
+              } else if (route.name === "Admin") {
+                iconName = focused ? "ios-settings" : "ios-settings";
+              }
+
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: "tomato",
+            inactiveTintColor: "gray",
+          }}
+        >
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            options={{ tabBarBadge: 99, title: "My Home" }}
+          />
+          <Tab.Screen name="Profile" component={Profile} />
+        </Tab.Navigator>
+      );
+    }
   }
 }
