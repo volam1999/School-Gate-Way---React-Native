@@ -28,6 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Add menu for admin."
+    "description": "update beta testing version",
+    "githubUrl": "https://github.com/volam1999/School-Gate-Way---React-Native.git"
   }
 }

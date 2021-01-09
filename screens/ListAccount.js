@@ -6,79 +6,31 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  ScrollView,
   FlatList,
 } from "react-native";
 
+import firebase from "../modules/Database";
+
 export default class Users extends Component {
+  getListAccount = () => {
+    firebase
+      .database()
+      .ref("/accounts/")
+      .on("value", (snapshot) => {
+        this.setState({ data: Object.values(snapshot.val()) });
+      });
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          id: 1,
-          name: "Mark Doe",
-          position: "CEO",
-          image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-        },
-        {
-          id: 1,
-          name: "John Doe",
-          position: "CTO",
-          image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-        },
-        {
-          id: 2,
-          name: "Clark Man",
-          position: "Creative designer",
-          image: "https://bootdey.com/img/Content/avatar/avatar6.png",
-        },
-        {
-          id: 3,
-          name: "Jaden Boor",
-          position: "Front-end dev",
-          image: "https://bootdey.com/img/Content/avatar/avatar5.png",
-        },
-        {
-          id: 4,
-          name: "Srick Tree",
-          position: "Backend-end dev",
-          image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-        },
-        {
-          id: 5,
-          name: "John Doe",
-          position: "Creative designer",
-          image: "https://bootdey.com/img/Content/avatar/avatar3.png",
-        },
-        {
-          id: 6,
-          name: "Văn Tra",
-          position: "Manager",
-          image: "https://bootdey.com/img/Content/avatar/avatar2.png",
-        },
-        {
-          id: 8,
-          name: "Tấn Phát",
-          position: "IOS dev",
-          image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-        },
-        {
-          id: 9,
-          name: "John Doe",
-          position: "Web dev",
-          image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-        },
-        {
-          id: 9,
-          name: "John Doe",
-          position: "Analyst",
-          image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-        },
-      ],
+      data: [],
     };
   }
-
+  componentDidMount = async () => {
+    await this.getListAccount();
+    console.log(this.state.data);
+  };
   clickEventListener(item) {
     Alert.alert(item.name);
   }
@@ -92,8 +44,8 @@ export default class Users extends Component {
           data={this.state.data}
           horizontal={false}
           numColumns={2}
-          keyExtractor={(item) => {
-            return item.id;
+          keyExtractor={(item, index) => {
+            return index + "";
           }}
           renderItem={({ item }) => {
             return (
@@ -112,18 +64,21 @@ export default class Users extends Component {
                     }}
                   />
                 </View>
-                <Image style={styles.userImage} source={{ uri: item.image }} />
+                <Image
+                  style={styles.userImage}
+                  source={require("../assets/avatar7.png")}
+                />
                 <View style={styles.cardFooter}>
                   <View
                     style={{ alignItems: "center", justifyContent: "center" }}
                   >
                     <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.position}>{item.position}</Text>
+                    <Text style={styles.position}>{item.class}</Text>
                     <TouchableOpacity
                       style={styles.followButton}
                       onPress={() => this.clickEventListener(item)}
                     >
-                      <Text style={styles.followButtonText}>Follow</Text>
+                      <Text style={styles.followButtonText}>Detail</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -140,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   list: {
     paddingHorizontal: 5,

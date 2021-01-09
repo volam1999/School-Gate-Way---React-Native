@@ -5,6 +5,7 @@ import {
   Button,
   Image,
   ScrollView,
+  BackHandler,
 } from "react-native";
 import React from "react";
 
@@ -37,7 +38,7 @@ export default class Profile extends React.Component {
 
     var ref = "/accounts/" + id + "/";
     console.log(ref);
-    await firebase
+    firebase
       .database()
       .ref(ref)
       .on("value", (snapshot) => {
@@ -49,6 +50,7 @@ export default class Profile extends React.Component {
           class: client.class,
           phone: client.phone,
           address: client.place,
+          email: client.email,
         });
       });
   };
@@ -63,7 +65,7 @@ export default class Profile extends React.Component {
         <View style={{ alignItems: "center", marginTop: 32 }}>
           <Image
             style={styles.imageStyle}
-            source={require("../assets/girl1.jpg")}
+            source={require("../assets/2.jpeg")}
           />
         </View>
         <View style={{ margin: 16 }}>
@@ -78,7 +80,7 @@ export default class Profile extends React.Component {
           </Text>
           <Text style={styles.text}>
             Địa Chỉ Email:{" "}
-            <Text style={{ fontWeight: "bold" }}>admin@gmail.com</Text>
+            <Text style={{ fontWeight: "bold" }}>{this.state.email}</Text>
           </Text>
           <Text style={styles.text}>
             Quê Quán:{" "}
@@ -94,15 +96,22 @@ export default class Profile extends React.Component {
             Trường:{" "}
             <Text style={{ fontWeight: "bold" }}>{this.state.university}</Text>
           </Text>
-          <Text style={styles.text}>
-            Mật Khẩu: <Text style={{ color: "red" }}>********</Text>
-          </Text>
-          <Button
-            title="Đổi mật khẩu"
-            onPress={() => {
-              this.props.navigation.navigate("ChangePassword");
-            }}
-          />
+          <View style={{ marginTop: 5 }}>
+            <Button
+              title="Đổi mật khẩu"
+              onPress={() => {
+                this.props.navigation.navigate("ChangePassword");
+              }}
+            />
+          </View>
+          <View style={{ marginTop: 10 }}>
+            <Button
+              title="Đăng xuất"
+              onPress={() => {
+                BackHandler.exitApp();
+              }}
+            />
+          </View>
         </View>
       </ScrollView>
     );
@@ -127,10 +136,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     margin: 5,
+    textTransform: "uppercase",
   },
   text: {
-    textAlign: "left",
-    alignItems: "flex-start",
-    fontSize: 15,
+    fontSize: 16,
+  },
+  button: {
+    color: "green",
+    margin: 16,
   },
 });

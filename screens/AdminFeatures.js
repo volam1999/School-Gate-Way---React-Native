@@ -10,31 +10,37 @@ import {
 
 import { createStackNavigator } from "@react-navigation/stack";
 import MarqueeText from "react-native-marquee";
+import { Ionicons } from "@expo/vector-icons";
 
 import ListAccounts from "./ListAccount";
 import PushNotifications from "./PushNotifications";
+import { SafeAreaView } from "react-native";
 
 const AdminHome = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View
         style={{
           position: "absolute",
           bottom: 0,
-          padding: 16,
+          backgroundColor: "#009688",
         }}
       >
         <MarqueeText
           style={{
             fontSize: 16,
             width: 400,
-            color: "red",
+            color: "#fff",
           }}
-          duration={8000}
+          duration={24000}
           marqueeOnStart
           loop
         >
-          Trường Đại học Quy Nhơn với giải thưởng “Công trình toán học năm 2020”
+          Thông báo mới: Trường Đại học Quy Nhơn với giải thưởng “Công trình
+          toán học năm 2020”, Trường Đại học Quy Nhơn: Bổ nhiệm 02 tân Phó Hiệu
+          trưởng nhiệm kỳ 2020-2025, Bế mạc đợt khảo sát chính thức phục vụ đánh
+          giá ngoài 05 chương trình đào tạo, Khai mạc đợt khảo sát chính thức
+          phục vụ đánh giá ngoài 05 chương trình đào tạo
         </MarqueeText>
       </View>
       <View
@@ -48,7 +54,15 @@ const AdminHome = ({ navigation }) => {
             navigation.navigate("ListAccounts");
           }}
         >
-          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+          <Ionicons name="md-list-box" size={24} color="#fff" />
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 18,
+              fontWeight: "bold",
+              paddingLeft: 5,
+            }}
+          >
             Danh Sách Người Dùng
           </Text>
         </TouchableOpacity>
@@ -58,12 +72,20 @@ const AdminHome = ({ navigation }) => {
             navigation.navigate("PushNotifications");
           }}
         >
-          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
-            Đăng Thông Báo
+          <Ionicons name="ios-notifications" size={24} color="#fff" />
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 18,
+              fontWeight: "bold",
+              paddingLeft: 5,
+            }}
+          >
+            Gửi thông báo
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -93,12 +115,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    backgroundColor: "#3A59FF",
-    color: "white",
-    width: Platform.OS == "android" ? "100%" : 480,
-    borderRadius: 20,
-    alignItems: "center",
-    marginTop: "1%",
+    flexDirection: "row",
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop: 10,
   },
   text: {
     color: "#005662",

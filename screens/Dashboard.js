@@ -6,8 +6,7 @@ import * as Permissions from "expo-permissions";
 import firebase from "../modules/Database";
 
 import Home from "./Home";
-import Profile from "./Profile";
-import ListAccounts from "./ListAccount";
+import Profile from "./ProfileMenu";
 import AdminFeatures from "./AdminFeatures";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,6 +16,7 @@ const Tab = createBottomTabNavigator();
 export default class Dashboard extends React.Component {
   state = {
     role: "user",
+    id: "",
   };
 
   registerForPushNotificationsAsync = async () => {
@@ -46,7 +46,7 @@ export default class Dashboard extends React.Component {
       // POST the token to your backend server from where you can retrieve it to send push notifications.
       firebase
         .database()
-        .ref("accounts/" + this.props.route.params.userId + "/push_token")
+        .ref("accounts/" + this.state.id + "/push_token")
         .set(token.data);
     } catch (error) {
       console.log(error);
@@ -56,10 +56,11 @@ export default class Dashboard extends React.Component {
   getRoleMenu = async () => {
     try {
       const value = await AsyncStorage.getItem("@role");
+      const id = await AsyncStorage.getItem("@sessionID");
       if (value !== null) {
         // value previously stored
         console.log(value);
-        this.setState({ role: value });
+        this.setState({ role: value, id});
       }
     } catch (e) {
       // error reading value
@@ -67,8 +68,8 @@ export default class Dashboard extends React.Component {
   };
 
   async componentDidMount() {
-    await this.registerForPushNotificationsAsync();
     await this.getRoleMenu();
+    await this.registerForPushNotificationsAsync();
   }
 
   render() {
@@ -99,7 +100,7 @@ export default class Dashboard extends React.Component {
           <Tab.Screen
             name="Home"
             component={Home}
-            options={{ tabBarBadge: 99, title: "My Home" }}
+            options={{ tabBarBadge: 9, title: "My Home" }}
           />
           <Tab.Screen name="Profile" component={Profile} />
           <Tab.Screen name="Admin" component={AdminFeatures} />
@@ -132,7 +133,7 @@ export default class Dashboard extends React.Component {
           <Tab.Screen
             name="Home"
             component={Home}
-            options={{ tabBarBadge: 99, title: "My Home" }}
+            options={{ tabBarBadge: 9, title: "My Home" }}
           />
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
